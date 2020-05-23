@@ -1,76 +1,94 @@
+// TODO html values=> indexes to names - in sanitize??
 let stammesauswahlGrps;
 let stammesauswahlAdmin = false;
 
 window.addEventListener("load", async () => {
-    document.getElementById("stammesauswahl-dv").addEventListener("change", e => stammesauswahlLoadBezirke(e.target.value));
-    document.getElementById("stammesauswahl-bezirk").addEventListener("change", e => stammesauswahlLoadStaemme(e.target.value));
-    document.getElementById("stammesauswahl-stamm").addEventListener("change", () => {
-        if (document.querySelector("#stammesauswahl-stamm option[value='---']")) document.querySelector("#stammesauswahl-stamm option[value='---']").remove();
+
+    document.querySelectorAll(".stammesauswahl").forEach(table => {
+        table.querySelector(".stammesauswahl-dv").addEventListener("change", e => stammesauswahlLoadBezirke(table, e.target.value));
+        table.querySelector(".stammesauswahl-bezirk").addEventListener("change", e => stammesauswahlLoadStaemme(table, e.target.value));
+        table.querySelector(".stammesauswahl-stamm").addEventListener("change", () => {
+            if (table.querySelector(".stammesauswahl-stamm option[value='---']")) table.querySelector(".stammesauswahl-stamm option[value='---']").remove();
+        });
+
+        stammesauswahlLoad(table);
     });
 
-    stammesauswahlGrps = await fetch("https://wp.schoolyourself.de/wp-content/uploads/2020/05/gruppierungen.txt").then(r => r.json());
-    if (stammesauswahlAdmin) {
-        document.getElementById("dv-count").innerText = `(${Object.keys(stammesauswahlGrps.dvs).length})`;
-        document.getElementById("bezirk-count").innerText = `(${Object.keys(stammesauswahlGrps.bezirke).length})`;
-        document.getElementById("stamm-count").innerText = `(${Object.keys(stammesauswahlGrps.staemme).length})`;
-    }
-    stammesauswahlLoad();
-
-    let parent = document.getElementById("stammesauswahl-dv").parentElement;
+    let parent = document.querySelector(".stammesauswahl-dv").parentElement;
     while (parent && parent.className != "wpcf7") parent = parent.parentElement;
-    if (parent) parent.addEventListener("wpcf7mailsent", () => requestAnimationFrame(stammesauswahlLoad));
+    if (parent) parent.addEventListener("wpcf7mailsent", () => requestAnimationFrame(() => document.querySelectorAll(".stammesauswahl").forEach(table => stammesauswahlLoad(table))));
 });
 
-function stammesauswahlLoad() {
-    let dv = document.getElementById("stammesauswahl-dv").getAttribute("defaultValue");
-    let bezirk = document.getElementById("stammesauswahl-bezirk").getAttribute("defaultValue");
-    let stamm = document.getElementById("stammesauswahl-stamm").getAttribute("defaultValue");
+function stammesauswahlLoad(table) {
+    let dv = table.querySelector(".stammesauswahl-dv").getAttribute("defaultValue");
+    let bezirk = table.querySelector(".stammesauswahl-bezirk").getAttribute("defaultValue");
+    let stamm = table.querySelector(".stammesauswahl-stamm").getAttribute("defaultValue");
 
-    document.getElementById("stammesauswahl-dv").innerHTML = "";
-    let dvs = Object.keys(stammesauswahlGrps.dvs).sort();
-    if (dvs.indexOf(dv) == -1) dvs = ["---", ...dvs];
+    table.querySelector(".stammesauswahl-dv").innerHTML = "";
+    let groups = JSON.parse(table.getAttribute("groups"));
+    let dvs = groups.map((dv, i) => [i, dv.name]).sort((a, b) => a[1].localeCompare(b[1]));
+    let defaultDv = dvs.find(d => d[1] == dv);
+    if (!defaultDv) dvs = [[-1, "---"], ...dvs];
+
+    if (stammesauswahlAdmin) {
+        table.querySelector(".dv-count").innerText = `(${groups.length})`;
+        table.querySelector(".bezirk-count").innerText = `(${groups.map(d => d.bezirke.length).reduce((a, b) => a + b)})`;
+        let bezirkeCount = groups.map(d => d.bezirke.map(b => b.staemme.length).reduce((a, b) => a + b)).reduce((a, b) => a + b);
+        let noBezirksCount = groups.filter(d => !d.hasBezirke).length;
+        table.querySelector(".stamm-count").innerText = `(${bezirkeCount} (${bezirkeCount - noBezirksCount}))`;
+    }
+
 
     dvs.forEach(d => {
         let option = document.createElement("option");
-        option.value = d;
-        option.innerText =  d;
-        document.getElementById("stammesauswahl-dv").appendChild(option);
+        option.value = d[0];
+        option.innerText = d[1];
+        table.querySelector(".stammesauswahl-dv").appendChild(option);
     });
-    if (dvs.indexOf(dv) != -1) document.getElementById("stammesauswahl-dv").value = dv;
+    if (defaultDv) table.querySelector(".stammesauswahl-dv").value = defaultDv[0];
 
-    stammesauswahlLoadBezirke(dv, bezirk, stamm, true);
+    stammesauswahlLoadBezirke(table, defaultDv?.[0], bezirk, stamm);
 }
 
-function stammesauswahlLoadBezirke(dv, bezirk, stamm) {
-    if (dv && document.querySelector("#stammesauswahl-dv option[value='---']")) document.querySelector("#stammesauswahl-dv option[value='---']").remove();
-    document.getElementById("stammesauswahl-bezirk").innerHTML = "";
+function stammesauswahlLoadBezirke(table, dvIndex, bezirk, stamm) {
+    if (dvIndex !== undefined && table.querySelector(".stammesauswahl-dv option[value='-1']")) table.querySelector(".stammesauswahl-dv option[value='-1']").remove();
+    table.querySelector(".stammesauswahl-bezirk").innerHTML = "";
 
-    let bezirke = Object.keys(stammesauswahlGrps.bezirke).filter(b => stammesauswahlGrps.bezirke[b] > stammesauswahlGrps.dvs[dv] && stammesauswahlGrps.bezirke[b] < stammesauswahlGrps.dvs[dv] + 10000).sort();
-    if (bezirke.indexOf(bezirk) == -1) bezirke = ["---", ...bezirke];
+    let dv = JSON.parse(table.getAttribute("groups"))[dvIndex];
+    table.querySelector(".stammesauswahl-bezirk").disabled = !dv?.hasBezirke;
+
+    let bezirke = dv ? dv.bezirke.map((b, i) => [i, b.name]).sort((a, b) => a[1].localeCompare(b[1])) : [];
+    let defaultBezirk = dv?.hasBezirke ? bezirke.find(b => b[1] == bezirk) : bezirke[0];
+    if (!defaultBezirk) bezirke = [[-1, "---"], ...bezirke];
 
     bezirke.forEach(b => {
         let option = document.createElement("option");
-        option.value = b;
-        option.innerText = b;
-        document.getElementById("stammesauswahl-bezirk").appendChild(option);
+        option.value = b[0] >= 0 ? dvIndex + "," + b[0] : -1;
+        option.innerText = b[1] || "---";
+        table.querySelector(".stammesauswahl-bezirk").appendChild(option);
     });
-    if (bezirke.indexOf(bezirk) != -1) document.getElementById("stammesauswahl-bezirk").value = bezirk;
+    if (defaultBezirk) table.querySelector(".stammesauswahl-bezirk").value = dvIndex + "," + defaultBezirk[0];
 
-    stammesauswahlLoadStaemme(bezirke.length > 0 && bezirke[bezirke.length - 1] != "---" ? (bezirk && bezirke.indexOf(bezirk) != -1) ? bezirk : 0 : dv, bezirke.length > 1, stamm);
+    stammesauswahlLoadStaemme(table, defaultBezirk ? dvIndex + "," + defaultBezirk?.[0] : null, stamm);
 }
 
-function stammesauswahlLoadStaemme(bezirkOrDv, bz = true, stamm = null) {
-    if (bezirkOrDv && bz && document.querySelector("#stammesauswahl-bezirk option[value='---']")) document.querySelector("#stammesauswahl-bezirk option[value='---']").remove();
-    document.getElementById("stammesauswahl-stamm").innerHTML = "";
+function stammesauswahlLoadStaemme(table, bezirkIndexes, stamm) {
+    if (bezirkIndexes && table.querySelector(".stammesauswahl-bezirk option[value='-1']")) table.querySelector(".stammesauswahl-bezirk option[value='-1']").remove();
+    table.querySelector(".stammesauswahl-stamm").innerHTML = "";
 
-    let staemme = Object.keys(stammesauswahlGrps.staemme).filter(s => stammesauswahlGrps.staemme[s] > (bz ? stammesauswahlGrps.bezirke[bezirkOrDv] : stammesauswahlGrps.dvs[bezirkOrDv]) && stammesauswahlGrps.staemme[s] < (bz ? stammesauswahlGrps.bezirke[bezirkOrDv] : stammesauswahlGrps.dvs[bezirkOrDv]) + (bz ? 100 : 10000)).sort();
-    if (staemme.indexOf(stamm) == -1) staemme = ["---", ...staemme];
+    let dv = JSON.parse(table.getAttribute("groups"))[parseInt(bezirkIndexes?.split(",")[0])];
+    let bezirk = dv?.bezirke[parseInt(bezirkIndexes?.split(",")[1])];
+    table.querySelector(".stammesauswahl-stamm").disabled = !bezirk;
+
+    let staemme = bezirk ? bezirk.staemme.sort() : [];
+    let defaultStamm = staemme.find(s => s == stamm);
+    if (!defaultStamm) staemme = ["---", ...staemme];
 
     staemme.forEach(s => {
         let option = document.createElement("option");
         option.value = s;
         option.innerText = s;
-        document.getElementById("stammesauswahl-stamm").appendChild(option);
+        table.querySelector(".stammesauswahl-stamm").appendChild(option);
     });
-    if (staemme.indexOf(stamm) != -1) document.getElementById("stammesauswahl-stamm").value = stamm;
+    if (defaultStamm) table.querySelector(".stammesauswahl-stamm").value = defaultStamm;
 }
