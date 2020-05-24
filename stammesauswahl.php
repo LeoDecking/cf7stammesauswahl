@@ -33,7 +33,7 @@ function custom_stamm_form_tag_handler( $tag ) {
      
     return '<style>.stammesauswahl td {padding: 2px!important;}</style>'.
       '<table class="stammesauswahl" groups="'.esc_attr( $options['groups'] ).'">
-        <tr><td><label>Diözesanverband:</label></td><td><select class="stammesauswahl-dv" defaultValue="'.esc_attr( $defaultValues[0] ).'"></select></td></tr>
+        <tr><td><label>DV:</label></td><td><select class="stammesauswahl-dv" defaultValue="'.esc_attr( $defaultValues[0] ).'"></select></td></tr>
         <tr><td><label>Bezirk:</label></td><td><select class="stammesauswahl-bezirk" defaultValue="'.esc_attr( $defaultValues[1] ).'"></select></td></tr>
         <tr><td><label>Stamm:</label></td><td><span class="wpcf7-form-control-wrap '.esc_attr($name).'">
           <select class="stammesauswahl-stamm" defaultValue="'.esc_attr( $defaultValues[2] ).'"></select>
