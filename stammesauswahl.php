@@ -21,9 +21,15 @@ function custom_add_form_tag_stamm() {
  
 function custom_stamm_form_tag_handler( $tag ) {
     if( ! $tag instanceof WPCF7_FormTag ) return '';
-
-    wp_enqueue_script( 'stammesauswahl-script',plugins_url( '/stammesauswahl.js', __FILE__ ),[]);
-
+    
+    global $is_IE;
+    if($is_IE) {
+      wp_enqueue_script( 'stammesauswahl-script',plugins_url( '/stammesauswahl-es2015.js', __FILE__ ),[]);
+      wp_enqueue_script( 'polyfills','https://polyfill.io/v3/polyfill.min.js?features=es2015%2CElement.prototype.remove',[]);
+    } else {
+      wp_enqueue_script( 'stammesauswahl-script',plugins_url( '/stammesauswahl.js', __FILE__ ),[]);
+    }
+    
     $name = $tag->name;
     if($name=='')$name='stamm';
 

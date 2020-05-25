@@ -41,8 +41,15 @@ function dbi_plugin_section_text() {
 function stammesauswahl_setting_groups() {
   $options = get_option( 'stammesauswahl_plugin_options' );
 
-  wp_enqueue_script( 'stammesauswahl-script',plugins_url( '/stammesauswahl.js', __FILE__ ),[]);
-  wp_enqueue_script( 'stammesauswahl-admin-script',plugins_url( '/stammesauswahl-admin.js', __FILE__ ),[]);
+  global $is_IE;
+  if($is_IE) {
+    wp_enqueue_script( 'stammesauswahl-script',plugins_url( '/stammesauswahl-es2015.js', __FILE__ ),[]);
+    wp_enqueue_script( 'polyfills','https://polyfill.io/v3/polyfill.min.js?features=es2015%2CElement.prototype.remove',[]);
+  } else {
+    wp_enqueue_script( 'stammesauswahl-script',plugins_url( '/stammesauswahl.js', __FILE__ ),[]);
+    wp_enqueue_script( 'stammesauswahl-admin-script',plugins_url( '/stammesauswahl-admin.js', __FILE__ ),[]);
+  }
+ 
   echo '<style>.stammesauswahl td {padding: 2px!important;}</style>';
   echo 
     '<table class="stammesauswahl" groups="'.esc_attr( $options['groups'] ).'">
@@ -54,8 +61,9 @@ function stammesauswahl_setting_groups() {
 
 function stammesauswahl_setting_paste() {
   echo '<p>Füge den Inhalt der <a target="_blank" href="https://dpsg.de/de/ueber-uns/satzung-ordnung-konzepte/ordnung-satzung.html">aktuellen Liste der Gruppierungen</a> in das Textfeld ein und klicke auf "Auslesen", um die Gruppierungen zu aktualisieren.</p>
-  <textarea id="stammesauswahl_plugin_paste" style="width:400px;height:60px"/></textarea>
-  <input id="paste-button" class="button button-secondary" type="button" value="Auslesen"/>';
+  <p><b>Benutze dafür Chrome oder Firefox, nicht Internet Explorer!</b></p>
+  <textarea id="stammesauswahl_plugin_paste" style="width:400px;height:60px" disabled></textarea>
+  <input id="stammesauswahl-paste-button" class="button button-secondary" type="button" value="Auslesen" disabled/>';
 }
 
 function stammesauswahl_setting_hidden() {
