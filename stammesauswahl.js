@@ -43,7 +43,7 @@ window.addEventListener("load", () => {
 
     let parent = document.querySelector(".stammesauswahl-dv").parentElement;
     while (parent && parent.className != "wpcf7") parent = parent.parentElement;
-    if (parent) parent.addEventListener("wpcf7mailsent", () => requestAnimationFrame(() => document.querySelectorAll(".stammesauswahl").forEach(table => stammesauswahlLoad(table))));
+    if (parent) parent.addEventListener("wpcf7mailsent", () => requestAnimationFrame(() => Array.apply(null,document.querySelectorAll(".stammesauswahl")).forEach(table => stammesauswahlLoad(table))));
 });
 
 function stammesauswahlLoad(table) {

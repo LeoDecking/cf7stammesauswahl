@@ -59,7 +59,7 @@ window.addEventListener("load", function () {
 
   if (parent) parent.addEventListener("wpcf7mailsent", function () {
     return requestAnimationFrame(function () {
-      return document.querySelectorAll(".stammesauswahl").forEach(function (table) {
+      return Array.apply(null,document.querySelectorAll(".stammesauswahl")).forEach(function (table) {
         return stammesauswahlLoad(table);
       });
     });
