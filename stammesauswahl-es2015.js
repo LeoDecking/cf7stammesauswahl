@@ -25,8 +25,8 @@ window.addEventListener("load", function () {
     table.querySelector(".stammesauswahl-stamm").addEventListener("change", function (e) {
       if (table.querySelector(".stammesauswahl-stamm option[value='---']")) table.querySelector(".stammesauswahl-stamm option[value='---']").remove();
       table.querySelector(".stammesauswahl-custom-stamm").value = e.target.value;
-      table.querySelector(".stammesauswahl-form-bezirk").value = table.querySelector(".stammesauswahl-bezirk").selectedOptions[0].innerText;
-      table.querySelector(".stammesauswahl-form-dv").value = table.querySelector(".stammesauswahl-dv").selectedOptions[0].innerText;
+      table.querySelector(".stammesauswahl-form-bezirk").value = table.querySelector(".stammesauswahl-bezirk").options[table.querySelector(".stammesauswahl-bezirk").selectedIndex].innerText;
+      table.querySelector(".stammesauswahl-form-dv").value = table.querySelector(".stammesauswahl-dv").options[table.querySelector(".stammesauswahl-dv").selectedIndex].innerText;
     });
 
     if (!stammesauswahlAdmin) {

@@ -9,32 +9,32 @@ window.addEventListener("load", () => {
         table.querySelector(".stammesauswahl-stamm").addEventListener("change", e => {
             if (table.querySelector(".stammesauswahl-stamm option[value='---']")) table.querySelector(".stammesauswahl-stamm option[value='---']").remove();
             table.querySelector(".stammesauswahl-custom-stamm").value = e.target.value;
-            table.querySelector(".stammesauswahl-form-bezirk").value = table.querySelector(".stammesauswahl-bezirk").selectedOptions[0].innerText;
-            table.querySelector(".stammesauswahl-form-dv").value = table.querySelector(".stammesauswahl-dv").selectedOptions[0].innerText;
+            table.querySelector(".stammesauswahl-form-bezirk").value = table.querySelector(".stammesauswahl-bezirk").options[table.querySelector(".stammesauswahl-bezirk").selectedIndex].innerText;
+            table.querySelector(".stammesauswahl-form-dv").value = table.querySelector(".stammesauswahl-dv").options[table.querySelector(".stammesauswahl-dv").selectedIndex].innerText;
         });
 
         if (!stammesauswahlAdmin) {
             table.querySelector(".stammesauswahl-custom").addEventListener("click", () => {
-                table.querySelector(".stammesauswahl-custom").style.cssText= "display:none";
-                table.querySelector(".stammesauswahl-select").style.cssText= "display:unset";
+                table.querySelector(".stammesauswahl-custom").style.cssText = "display:none";
+                table.querySelector(".stammesauswahl-select").style.cssText = "display:unset";
 
                 stammesauswahlLoadBezirke(table, table.querySelector(".stammesauswahl-dv").value);
-                table.querySelector(".stammesauswahl-stamm").style.cssText= "display:none";
-                table.querySelector(".stammesauswahl-bezirk").style.cssText= "display:none";
+                table.querySelector(".stammesauswahl-stamm").style.cssText = "display:none";
+                table.querySelector(".stammesauswahl-bezirk").style.cssText = "display:none";
 
-                table.querySelector(".stammesauswahl-custom-stamm").style.cssText= "display:unset";
+                table.querySelector(".stammesauswahl-custom-stamm").style.cssText = "display:unset";
                 table.querySelector(".stammesauswahl-custom-stamm").value = "";
             });
 
             table.querySelector(".stammesauswahl-select").addEventListener("click", () => {
-                table.querySelector(".stammesauswahl-custom").style.cssText= "display:unset";
-                table.querySelector(".stammesauswahl-select").style.cssText= "display:none";
+                table.querySelector(".stammesauswahl-custom").style.cssText = "display:unset";
+                table.querySelector(".stammesauswahl-select").style.cssText = "display:none";
 
                 stammesauswahlLoadBezirke(table, table.querySelector(".stammesauswahl-dv").value);
-                table.querySelector(".stammesauswahl-stamm").style.cssText= "display:unset";
-                table.querySelector(".stammesauswahl-bezirk").style.cssText= "display:unset";
+                table.querySelector(".stammesauswahl-stamm").style.cssText = "display:unset";
+                table.querySelector(".stammesauswahl-bezirk").style.cssText = "display:unset";
 
-                table.querySelector(".stammesauswahl-custom-stamm").style.cssText= "display:none";
+                table.querySelector(".stammesauswahl-custom-stamm").style.cssText = "display:none";
             });
         }
 
