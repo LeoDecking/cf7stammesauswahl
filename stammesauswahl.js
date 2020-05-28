@@ -6,14 +6,14 @@ window.addEventListener("load", () => {
     Array.apply(null, document.querySelectorAll(".stammesauswahl")).forEach(table => {
         table.querySelector(".stammesauswahl-dv").addEventListener("change", e => stammesauswahlLoadBezirke(table, e.target.value));
         table.querySelector(".stammesauswahl-bezirk").addEventListener("change", e => stammesauswahlLoadStaemme(table, e.target.value));
-        table.querySelector(".stammesauswahl-stamm").addEventListener("change", e => {
-            if (table.querySelector(".stammesauswahl-stamm option[value='---']")) table.querySelector(".stammesauswahl-stamm option[value='---']").remove();
-            table.querySelector(".stammesauswahl-custom-stamm").value = e.target.value;
-            table.querySelector(".stammesauswahl-form-bezirk").value = table.querySelector(".stammesauswahl-bezirk").options[table.querySelector(".stammesauswahl-bezirk").selectedIndex].innerText;
-            table.querySelector(".stammesauswahl-form-dv").value = table.querySelector(".stammesauswahl-dv").options[table.querySelector(".stammesauswahl-dv").selectedIndex].innerText;
-        });
-
         if (!stammesauswahlAdmin) {
+            table.querySelector(".stammesauswahl-stamm").addEventListener("change", e => {
+                if (table.querySelector(".stammesauswahl-stamm option[value='---']")) table.querySelector(".stammesauswahl-stamm option[value='---']").remove();
+                table.querySelector(".stammesauswahl-custom-stamm").value = e.target.value;
+                table.querySelector(".stammesauswahl-form-bezirk").value = table.querySelector(".stammesauswahl-bezirk").options[table.querySelector(".stammesauswahl-bezirk").selectedIndex].innerText;
+                table.querySelector(".stammesauswahl-form-dv").value = table.querySelector(".stammesauswahl-dv").options[table.querySelector(".stammesauswahl-dv").selectedIndex].innerText;
+            });
+
             table.querySelector(".stammesauswahl-custom").addEventListener("click", () => {
                 table.querySelector(".stammesauswahl-custom").style.cssText = "display:none";
                 table.querySelector(".stammesauswahl-select").style.cssText = "display:unset";
@@ -74,11 +74,11 @@ function stammesauswahlLoad(table) {
     });
     if (defaultDv) table.querySelector(".stammesauswahl-dv").value = defaultDv[0];
 
-    stammesauswahlLoadBezirke(table, defaultDv?.[0], bezirk, stamm);
+    stammesauswahlLoadBezirke(table, !defaultDv ? null : defaultDv[0], bezirk, stamm);
 }
 
 function stammesauswahlLoadBezirke(table, dvIndex, bezirk, stamm) {
-    if (dvIndex !== undefined && table.querySelector(".stammesauswahl-dv option[value='-1']")) table.querySelector(".stammesauswahl-dv option[value='-1']").remove();
+    if (!stammesauswahlAdmin && dvIndex !== undefined && table.querySelector(".stammesauswahl-dv option[value='-1']")) table.querySelector(".stammesauswahl-dv option[value='-1']").remove();
     table.querySelector(".stammesauswahl-bezirk").innerHTML = "";
 
     let dv = JSON.parse(table.getAttribute("groups"))[dvIndex];
@@ -96,11 +96,11 @@ function stammesauswahlLoadBezirke(table, dvIndex, bezirk, stamm) {
     });
     if (defaultBezirk) table.querySelector(".stammesauswahl-bezirk").value = dvIndex + "," + defaultBezirk[0];
 
-    stammesauswahlLoadStaemme(table, dvIndex + "," + !defaultBezirk ? "-1" : defaultBezirk[0], stamm);
+    stammesauswahlLoadStaemme(table, dvIndex + "," + (!defaultBezirk ? "-1" : defaultBezirk[0]), stamm);
 }
 
 function stammesauswahlLoadStaemme(table, bezirkIndexes, stamm) {
-    if (bezirkIndexes.split(",")[1] >= 0 && table.querySelector(".stammesauswahl-bezirk option[value='-1']")) table.querySelector(".stammesauswahl-bezirk option[value='-1']").remove();
+    if (!stammesauswahlAdmin && bezirkIndexes.split(",")[1] >= 0 && table.querySelector(".stammesauswahl-bezirk option[value='-1']")) table.querySelector(".stammesauswahl-bezirk option[value='-1']").remove();
     table.querySelector(".stammesauswahl-stamm").innerHTML = "";
 
     let dv = JSON.parse(table.getAttribute("groups"))[parseInt(bezirkIndexes.split(",")[0])];
