@@ -32,7 +32,8 @@ function dbi_plugin_section_text() {
   '<p>Füge den <code>[stamm]</code>-Tag in dein Kontaktformular ein: <code>[stamm(*) feldname "Standard-DV" "Standard-Bezirk" "Standard-Stamm"]</code>
   <p>Mit dem <code>*</code> legst du fest, ob das Stammes-Feld erforderlich ist. Standard-Stamm/-Bezirk/-DV sind natürlich optionale Angaben ;)</p>
   <p>Du kannst anschließend folgende Tags in der E-Mail verwenden: <code>[feldname]</code>, <code>[feldname-bezirk]</code>, <code>[feldname-dv]</code></p>
-  <p>Ist ein Stamm nicht vorhanden und wird manuell eingegeben, enthält das <code>[feldname-bezirk]</code>-Feld in der Mail folgende Warnung: <code>Achtung: Stamm selbst eingegeben!</code>, prüfe dann, ob auf der Seite des Bundesverbands eine aktualisierte Liste der Gruppierungen zu finden ist :)</p>
+  <p>Ist ein Stamm nicht vorhanden und wird manuell eingegeben, enthält das <code>[feldname-bezirk]</code>-Feld in der Mail folgende Warnung: <code>Achtung: Stamm selbst eingegeben!</code></p>
+  <p>Prüfe dann, ob auf der Seite des Bundesverbands eine aktualisierte Liste der Gruppierungen zu finden ist, diese wird zweimal im Jahr nach den Beitragsabrechnungen aktualisiert :)</p>
   <br/>
   <p>Beispiele: <code>[stamm* stamm "Paderborn" "Bezirk Paderborn" "Paderborn, St. Meinolf"]</code>,</p>
   <p><code>[stamm abc "Münster"]</code>, <code>[stamm stamm2 "Erfurt" "" "Erfurt, St. Elisabeth"]</code>, <code>[stamm* stamm]</code></p>';
@@ -61,6 +62,7 @@ function stammesauswahl_setting_groups() {
 
 function stammesauswahl_setting_paste() {
   echo '<p>Füge den Inhalt der <a target="_blank" href="https://dpsg.de/de/ueber-uns/satzung-ordnung-konzepte/ordnung-satzung.html">aktuellen Liste der Gruppierungen</a> in das Textfeld ein und klicke auf "Auslesen", um die Gruppierungen zu aktualisieren.</p>
+  <i>1. Alles Markieren (Strg-A), 2. Kopieren (Strg-C), 3. Im Feld einfügen (Strg-V)</i>
   <p><b>Benutze dafür Chrome oder Firefox, nicht Internet Explorer!</b></p>
   <textarea id="stammesauswahl_plugin_paste" style="width:400px;height:60px" disabled></textarea>
   <input id="stammesauswahl-paste-button" class="button button-secondary" type="button" value="Auslesen" disabled/>';
