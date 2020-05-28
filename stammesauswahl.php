@@ -4,7 +4,7 @@
  * Author: Leo Decking
  * Description: Auswahl von Diözesanverband / Bezirk / Stamm für Contact Form 7
  * Plugin URI: https://github.com/leodecking/stammesauswahl
- * Version: 1.0
+ * Version: 1.1
  */
 include_once('stammesauswahl-settings.php');
 
@@ -25,7 +25,7 @@ function custom_stamm_form_tag_handler( $tag ) {
     global $is_IE;
     if($is_IE) {
       wp_enqueue_script( 'stammesauswahl-script',plugins_url( '/stammesauswahl-es2015.js', __FILE__ ),[]);
-      wp_enqueue_script( 'polyfills','https://polyfill.io/v3/polyfill.min.js?features=es2015%2CElement.prototype.remove',[]);
+      wp_enqueue_script( 'polyfills',plugins_url( '/polyfill.min.js', __FILE__ ),[]);
     } else {
       wp_enqueue_script( 'stammesauswahl-script',plugins_url( '/stammesauswahl.js', __FILE__ ),[]);
     }

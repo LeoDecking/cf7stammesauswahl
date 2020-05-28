@@ -43,7 +43,7 @@ window.addEventListener("load", () => {
 
     let parent = document.querySelector(".stammesauswahl-dv").parentElement;
     while (parent && parent.className != "wpcf7") parent = parent.parentElement;
-    if (parent) parent.addEventListener("wpcf7mailsent", () => requestAnimationFrame(() => Array.apply(null,document.querySelectorAll(".stammesauswahl")).forEach(table => stammesauswahlLoad(table))));
+    if (parent) parent.addEventListener("wpcf7mailsent", () => requestAnimationFrame(() => Array.apply(null, document.querySelectorAll(".stammesauswahl")).forEach(table => stammesauswahlLoad(table))));
 });
 
 function stammesauswahlLoad(table) {
@@ -82,10 +82,10 @@ function stammesauswahlLoadBezirke(table, dvIndex, bezirk, stamm) {
     table.querySelector(".stammesauswahl-bezirk").innerHTML = "";
 
     let dv = JSON.parse(table.getAttribute("groups"))[dvIndex];
-    table.querySelector(".stammesauswahl-bezirk").disabled = !dv?.hasBezirke;
+    table.querySelector(".stammesauswahl-bezirk").disabled = !dv || !dv.hasBezirke;
 
     let bezirke = dv ? dv.bezirke.map((b, i) => [i, b.name, b.staemme.length]).sort((a, b) => a[1].localeCompare(b[1])) : [];
-    let defaultBezirk = dv?.hasBezirke ? bezirke.find(b => b[1] == bezirk) : bezirke[0];
+    let defaultBezirk = !dv ? null : dv.hasBezirke ? bezirke.find(b => b[1] == bezirk) : bezirke[0];
     if (!defaultBezirk) bezirke = [[-1, "---", 0], ...bezirke];
 
     bezirke.forEach(b => {
@@ -96,7 +96,7 @@ function stammesauswahlLoadBezirke(table, dvIndex, bezirk, stamm) {
     });
     if (defaultBezirk) table.querySelector(".stammesauswahl-bezirk").value = dvIndex + "," + defaultBezirk[0];
 
-    stammesauswahlLoadStaemme(table, dvIndex + "," + defaultBezirk?.[0], stamm);
+    stammesauswahlLoadStaemme(table, dvIndex + "," + !defaultBezirk ? "-1" : defaultBezirk[0], stamm);
 }
 
 function stammesauswahlLoadStaemme(table, bezirkIndexes, stamm) {
@@ -104,7 +104,7 @@ function stammesauswahlLoadStaemme(table, bezirkIndexes, stamm) {
     table.querySelector(".stammesauswahl-stamm").innerHTML = "";
 
     let dv = JSON.parse(table.getAttribute("groups"))[parseInt(bezirkIndexes.split(",")[0])];
-    let bezirk = dv?.bezirke[parseInt(bezirkIndexes.split(",")[1])];
+    let bezirk = !dv ? null : dv.bezirke[parseInt(bezirkIndexes.split(",")[1])];
     table.querySelector(".stammesauswahl-stamm").disabled = !bezirk;
 
     let staemme = bezirk ? bezirk.staemme.sort() : [];
@@ -124,7 +124,7 @@ function stammesauswahlLoadStaemme(table, bezirkIndexes, stamm) {
             table.querySelector(".stammesauswahl-form-dv").value = defaultStamm ? dv.name || "---" : "---";
             table.querySelector(".stammesauswahl-form-bezirk").value = defaultStamm ? bezirk.name || "---" : "---";
         } else {
-            table.querySelector(".stammesauswahl-form-dv").value = dv?.name;
+            table.querySelector(".stammesauswahl-form-dv").value = !dv ? "" : dv.name;
             table.querySelector(".stammesauswahl-form-bezirk").value = "Achtung: Stamm selbst eingegeben!";
         }
     }
