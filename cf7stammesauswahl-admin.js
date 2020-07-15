@@ -1,27 +1,27 @@
 window.addEventListener("load", () => {
-    document.getElementById("stammesauswahl-paste-button").removeAttribute("disabled");
-    document.getElementById("stammesauswahl_plugin_paste").removeAttribute("disabled");
-    document.getElementById("stammesauswahl-paste-button").addEventListener("click", () => {
+    document.getElementById("cf7stammesauswahl-paste-button").removeAttribute("disabled");
+    document.getElementById("cf7stammesauswahl-plugin-paste").removeAttribute("disabled");
+    document.getElementById("cf7stammesauswahl-paste-button").addEventListener("click", () => {
         try {
-            let groups = JSON.stringify(stammesauswahlParse(document.getElementById("stammesauswahl_plugin_paste").value));
-            document.getElementById("stammesauswahl_setting_hidden").value = groups;
-            Array.apply(null, document.querySelectorAll(".stammesauswahl")).forEach(table => {
+            let groups = JSON.stringify(cf7stammesauswahlParse(document.getElementById("cf7stammesauswahl-plugin-paste").value));
+            document.getElementById("cf7stammesauswahl_setting_hidden").value = groups;
+            Array.apply(null, document.querySelectorAll(".cf7stammesauswahl")).forEach(table => {
                 table.setAttribute("groups", groups);
-                stammesauswahlLoad(table);
+                cf7stammesauswahlLoad(table);
             });
-            Array.apply(null, document.querySelectorAll(".stammesauswahl label")).forEach(l => l.style.color = "lightgreen");
+            Array.apply(null, document.querySelectorAll(".cf7stammesauswahl label")).forEach(l => l.style.color = "lightgreen");
         } catch {
-            document.getElementById("stammesauswahl_plugin_paste").value = "";
-            Array.apply(null, document.querySelectorAll(".stammesauswahl label")).forEach(l => l.style.color = "red");
+            document.getElementById("cf7stammesauswahl-plugin-paste").value = "";
+            Array.apply(null, document.querySelectorAll(".cf7stammesauswahl label")).forEach(l => l.style.color = "red");
             alert("Irgendetwas stimmt mit den eingefügten Daten nicht :\ Versuche es nochmal.");
         }
         setTimeout(() => {
-            Array.apply(null, document.querySelectorAll(".stammesauswahl label")).forEach(l => l.style.color = "");
+            Array.apply(null, document.querySelectorAll(".cf7stammesauswahl label")).forEach(l => l.style.color = "");
         }, 200);
     });
 });
 
-function stammesauswahlParse(pdf = "") {
+function cf7stammesauswahlParse(pdf = "") {
     let dvs = [];
     pdf.match(/Diözesen[\s\S]*Diözesen/g)[0].replace(/Diözese ([\wäöü-]+) (\d\d)\/(\d\d)\/(\d\d)/g, "°$1°$2°$3°$4").match(/°.*/g)
         .map(d => d.split("°")).forEach(d => dvs[parseInt(d[2])] = { name: d[1], bezirke: [], hasBezirke: true });
