@@ -5,7 +5,7 @@ Requires at least: 4.7
 Tested up to: 5.4.2
 Stable tag: 1.2
 Requires PHP: 7.0
-License: GPLv2
+License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Auswahl von DPSG-Diözesanverband, Bezirk und Stamm in Contact Form 7 Formularen
@@ -24,3 +24,8 @@ Sollte sich der Stamm einer Person noch nicht in der Gruppierungsliste befinden,
 
 
 Entwickelt von Leo Decking im FSJ im DPSG-Diözesanbüro Paderborn
+
+== Screenshots ==
+
+1. So sieht dann die Stammesauswahl in einem Formular aus
+2. In den Einstellungen wird die Einrichtung erklärt und man kann die aktuellen Gruppierungen laden

@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/leodecking/cf7stammesauswahl
  * Author: Leo Decking
  * Description: Auswahl von DPSG-Diözesanverband / Bezirk / Stamm für Contact Form 7
- * License: GPLv2
+ * License: GPLv2 or later
  * Version: 1.2
  */
 include_once('cf7stammesauswahl-settings.php');
