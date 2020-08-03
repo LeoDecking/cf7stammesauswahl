@@ -34,7 +34,7 @@ function cf7stammesauswahlParse(pdf = "") {
         d.bezirke[0] = ({ name: "", staemme: [] });
     });
 
-    pdf.match(/Stämme[\s\S]*Stämme/g)[0].replace(/(?:Stamm|Siedlung) (.*) (\d\d)\/(\d\d)\/(\d\d)/g, "°$1°$2°$3°$4").match(/°.*/g)
+    pdf.match(/Stämme[\s\S]*Siedlungen/g)[0].replace(/\d+ (.*) (?:Stamm|Siedlung|) (\d\d)\/(\d\d)\/(\d\d)/g, "°$1°$2°$3°$4").match(/°.*/g)
         .map(s => s.split("°")).forEach(s => dvs[parseInt(s[2])].bezirke[dvs[parseInt(s[2])].hasBezirke ? parseInt(s[3]) : 0].staemme.push(s[1]));
 
     dvs = dvs.filter(d => d);

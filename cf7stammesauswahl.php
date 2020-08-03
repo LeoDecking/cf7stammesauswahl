@@ -5,7 +5,7 @@
  * Author: Leo Decking
  * Description: Auswahl von DPSG-Diözesanverband / Bezirk / Stamm für Contact Form 7
  * License: GPLv2 or later
- * Version: 1.2
+ * Version: 1.3
  */
 include_once('cf7stammesauswahl-settings.php');
 

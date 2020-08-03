@@ -66,7 +66,8 @@ function cf7stammesauswahl_setting_paste() {
   <i>1. Alles Markieren (Strg-A), 2. Kopieren (Strg-C), 3. Im Feld einfügen (Strg-V)</i>
   <p><b>Benutze dafür Chrome oder Firefox, nicht Internet Explorer!</b></p>
   <textarea id="cf7stammesauswahl-plugin-paste" style="width:400px;height:60px" disabled></textarea>
-  <input id="cf7stammesauswahl-paste-button" class="button button-secondary" type="button" value="Auslesen" disabled/>';
+  <input id="cf7stammesauswahl-paste-button" class="button button-secondary" type="button" value="Auslesen" disabled/>
+  <p>Wenn trotzdem etwas nicht funktionieren sollte, z.B. nicht alle Stämme erkannt werden, oder andere Fragen aufkommen, melde dich gerne bei mir: <a href="mailto:leo.decking@schoolyourself.de">leo.decking@schoolyourself.de</a></p>';
 }
 
 function cf7stammesauswahl_setting_hidden() {

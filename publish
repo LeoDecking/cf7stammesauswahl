@@ -1,0 +1,7 @@
+// -r anpassena
+git svn clone --no-minimize-url -r2342080 https://plugins.svn.wordpress.org/dpsg-stammesauswahl-for-contact-form-7/ -T trunk -b branches -t tags
+https://developer.wordpress.org/plugins/wordpress-org/how-to-use-subversion/
+git svn fetch
+git add -A
+git commit
+git svn dcommit --username leodecking

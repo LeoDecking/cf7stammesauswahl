@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: leodecking, derweed
-Tags: dropdown, form, contact form 7, dpsg, scouts, scouting, pfadfinder, anmeldung, stamm
+Tags: contact form 7, dpsg, pfadfinder, stamm
 Requires at least: 4.7
 Tested up to: 5.4.2
-Stable tag: 1.2
+Stable tag: 1.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -22,8 +22,11 @@ Es können Werte voreingestellt werden, sodass z.B. auf der Internetseite des Di
 
 Sollte sich der Stamm einer Person noch nicht in der Gruppierungsliste befinden, kann man seinen Stamm auch manuell eingeben.
 
+**Einrichtung:** Nachdem das Plugin installiert wurde, wird in den Wordpress-Einstellungen eine Seite "Stammesauswahl" hinzugefügt.
+Dort musst du einmalig die aktuelle Gruppierungsliste laden.
 
-Entwickelt von Leo Decking im FSJ im DPSG-Diözesanbüro Paderborn
+
+*Entwickelt von Leo Decking im FSJ im DPSG-Diözesanbüro Paderborn*
 
 == Screenshots ==
 
